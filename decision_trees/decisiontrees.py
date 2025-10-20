@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 from helper import *
 
 # Read in data
@@ -16,4 +17,16 @@ categorical_indices = categorical_indices - numerical_indices
 tree = construct_tree(train_set, [i for i in range(n-1)], categorical_indices)
 
 acc = accuracy(tree, test_set)
-print(acc)
+print(f"Accuracy: {acc}")
+
+# Plot PR Curve
+precision_e, recall_e, auc = compute_pr_curve(tree, test_set)
+plt.plot(recall_e, precision_e, label=f'AUC = {auc:.4f}')
+plt.xlabel('Recall', fontsize=16)
+plt.ylabel('Precision', fontsize=16)
+plt.title('PR Curve for Decision Tree', fontsize=18)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.legend(fontsize=14)
+plt.grid(True)
+plt.show()

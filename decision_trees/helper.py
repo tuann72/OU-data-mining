@@ -244,3 +244,42 @@ def accuracy(tree, test_set):
         if predict(tree, instance) == int(instance[-1]):
             correct += 1
     return correct / len(test_set)
+
+def compute_pr_curve(tree, test_set):
+    y_scores = []
+    y_true = []
+
+    for instance in test_set:
+        true_label = int(instance[-1])
+        predicted_label = predict(tree, instance)
+        score = predicted_label 
+
+        y_scores.append(score)
+        y_true.append(true_label)
+
+    y_scores = np.array(y_scores)
+    y_true = np.array(y_true)
+
+    sorted_indices = np.argsort(-y_scores)
+    y_true = y_true[sorted_indices]
+    y_scores = y_scores[sorted_indices]
+
+    tp, fp = 0, 0
+    fn = np.sum(y_true)
+    precision, recall = [], []
+
+    for i in range(len(y_true)):
+        if y_true[i] == 1:
+            tp += 1
+            fn -= 1
+        else:
+            fp += 1
+
+        prec = tp / (tp + fp) if (tp + fp) > 0 else 1.0
+        rec = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+
+        precision.append(prec)
+        recall.append(rec)
+
+    auc = np.trapezoid(precision, recall)
+    return precision, recall, auc
