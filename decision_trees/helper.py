@@ -3,12 +3,13 @@ import random
 import numpy as np
 
 class TreeNode:
-    def __init__(self, is_leaf=False, label=None, attribute=None, threshold=None):
+    def __init__(self, is_leaf=False, label=None, attribute=None, threshold=None, prob=None):
         self.is_leaf = is_leaf
         self.label = label
         self.attribute = attribute
         self.threshold = threshold
         self.branches = {}
+        self.prob = prob
 
 possible_values = {
     0: [1, 2, 3, 4, 5, 6],
@@ -160,18 +161,21 @@ def construct_tree(data, attributes, categorical_indices):
     if target_sum == len(data):
         root.label = 1
         root.is_leaf = True
+        root.prob = 1.0
         return root
 
     # If all neg, return single-node tree Root with label -
     if target_sum == 0:
         root.label = 0
         root.is_leaf = True
+        root.prob = 0.0
         return root
 
     # If attributes empty, return single-node tree Root w label = majority class
     if not attributes: 
         root.label = majority_class(data)
         root.is_leaf = True
+        root.prob = target_sum / len(data)
         return root
 
     # A = best attribute from data (highest info gain)
@@ -197,7 +201,7 @@ def construct_tree(data, attributes, categorical_indices):
             # If not data_v (data_v is empty)
             if not data_v:
                 # Create leaf node w label = majority class
-                leaf = TreeNode(is_leaf=True, label=majority_class(data))
+                leaf = TreeNode(is_leaf=True, label=majority_class(data), prob=target_sum/len(data))
                 root.branches[v] = leaf
             else: 
                 # Create subtree id3(data_v, target, attributes - {A})
@@ -212,6 +216,7 @@ def construct_tree(data, attributes, categorical_indices):
         if not threshold: 
             root.is_leaf = True
             root.label = majority_class(data)
+            root.prob = target_sum / len(data)
         else:
             left = [row for row in data if row[A] <= threshold]
             right = [row for row in data if row[A] > threshold]
@@ -283,3 +288,64 @@ def compute_pr_curve(tree, test_set):
 
     auc = np.trapezoid(precision, recall)
     return precision, recall, auc
+
+def predict_proba(root, query):
+    node = root
+    while not node.is_leaf:
+        A = node.attribute
+        if node.threshold is not None:
+            if query[A] <= node.threshold:
+                node = node.branches[0]
+            else:
+                node = node.branches[1]
+        else:
+            if query[A] in node.branches:
+                node = node.branches[query[A]]
+            else:
+                # Default to 50-50 if value was unseen
+                return 0.5
+    # Estimate probability as proportion of positive labels at the leaf
+    return node.prob
+
+def compute_roc_curve(tree, test_set):
+    y_scores = []
+    y_true = []
+
+    for instance in test_set:
+        true_label = int(instance[-1])
+        score = predict_proba(tree, instance)
+        y_scores.append(score)
+        y_true.append(true_label)
+
+    y_scores = np.array(y_scores)
+    y_true = np.array(y_true)
+
+    # Sort scores in descending order
+    sorted_indices = np.argsort(-y_scores)
+    y_true = y_true[sorted_indices]
+    y_scores = y_scores[sorted_indices]
+
+    tp = 0
+    fp = 0
+    fn = np.sum(y_true)
+    tn = len(y_true) - fn
+
+    tpr_list = []
+    fpr_list = []
+
+    for i in range(len(y_true)):
+        if y_true[i] == 1:
+            tp += 1
+            fn -= 1
+        else:
+            fp += 1
+            tn -= 1
+
+        tpr = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+        fpr = fp / (fp + tn) if (fp + tn) > 0 else 0.0
+
+        tpr_list.append(tpr)
+        fpr_list.append(fpr)
+
+    auc = np.trapezoid(tpr_list, fpr_list)
+    return fpr_list, tpr_list, auc

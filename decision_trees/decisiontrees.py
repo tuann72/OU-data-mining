@@ -30,3 +30,20 @@ plt.yticks(fontsize=14)
 plt.legend(fontsize=14)
 plt.grid(True)
 plt.show()
+
+print(f"AUC (PR): {auc}")
+
+fpr, tpr, auc = compute_roc_curve(tree, test_set)
+
+# Plot ROC curve
+plt.figure()
+plt.plot(fpr, tpr, label=f'ROC Curve (AUC = {auc:.4f})')
+plt.plot([0, 1], [0, 1], linestyle='--', color='gray', label='Random Classifier')
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic (ROC) Curve')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+print(f"AUC (ROC): {auc:.4f}")
