@@ -5,31 +5,10 @@ import plotly.express as px
 import pandas as pd
 
 ### TEST DATA FOR FIGURES
-df = pd.read_csv("data.csv")
-
-
-
+df = pd.read_csv("clean_data.csv")
 
 #-------------------------- Title
-ui.page_opts(title="Analysis of Student Factors For Dropout Rates", fillable=True)
-
-#-------------------------- Sidebar
-with ui.sidebar(open="desktop"):
-    ui.input_file("f", "Upload more testing data")
-    @render.text
-    def txt():
-      return input.f()
-
-    ui.input_action_button("integrate_button", "Integrate Data")  
-    @reactive.event(input.integrate_button)
-    def integrateBtn():
-        return f"{input.integrate_button()}"
-    
-    ui.input_action_button("action_button", "Reset to Default Dataset")  
-    @reactive.event(input.action_button)
-    def resetBtn():
-        return f"{input.action_button()}"
-    
+ui.page_opts(title="Analysis of Student Factors For Dropout Rates", fillable=True)    
     
 
 #-------------------------- Main Body
@@ -44,6 +23,13 @@ with ui.navset_card_tab(id="tab"):
           # Summarize the Target column to avoid plotting per-row
           summary = df["Target"].value_counts().reset_index()
           summary.columns = ["Target", "Count"]
+
+          label_correction = {
+             0 : "Dropout",
+             1 : "Non-dropout"
+          }
+          
+          summary["Target"] = summary["Target"].map(label_correction)
 
           # Create pie chart
           fig = px.pie(
@@ -75,52 +61,52 @@ with ui.navset_card_tab(id="tab"):
         ui.card_header("Input Fields")
         ui.input_selectize(  
         "input1",  
-        "Select an option below:",  
-        {"1": "Choice A", "2": "Choice B", "3": "Choice C"},  
+        "Marital Status",  
+        {"1": "Single", "2": "Married", "3": "Widowed"},  
         )
         ui.input_selectize(  
         "input2",  
-        "Select an option below:",  
-        {"1": "Choice A", "2": "Choice B", "3": "Choice C"},  
+        "Daytime/evening attendence",  
+        {"1": "Daytime", "2": "Evening"},  
         )
         ui.input_selectize(  
         "input3",  
-        "Select an option below:",  
-        {"1": "Choice A", "2": "Choice B", "3": "Choice C"},  
+        "Previous qualification",  
+        {"1": "Secondary Education", "2": "Choice B", "3": "Choice C"},  
         )
         ui.input_selectize(  
         "input4",  
-        "Select an option below:",  
-        {"1": "Choice A", "2": "Choice B", "3": "Choice C"},  
+        "Nationality",  
+        {"1": "Portuguese", "2": "Choice B", "3": "Choice C"},  
         )
         ui.input_selectize(  
         "input5",  
-        "Select an option below:",  
-        {"1": "Choice A", "2": "Choice B", "3": "Choice C"},  
+        "Mother Qualification",  
+        {"1": "Secondary Education", "2": "Choice B", "3": "Choice C"},  
         )
         ui.input_selectize(  
         "input6",  
-        "Select an option below:",  
-        {"1": "Choice A", "2": "Choice B", "3": "Choice C"},  
+        "Father Qualification",  
+        {"1": "Secondary Education", "2": "Choice B", "3": "Choice C"},  
         )
         ui.input_selectize(  
         "input7",  
-        "Select an option below:",  
+        "?",  
         {"1": "Choice A", "2": "Choice B", "3": "Choice C"},  
         )
         ui.input_selectize(  
         "input8",  
-        "Select an option below:",  
+        "?",  
         {"1": "Choice A", "2": "Choice B", "3": "Choice C"},  
         )
         ui.input_selectize(  
         "input9",  
-        "Select an option below:",  
+        "?",  
         {"1": "Choice A", "2": "Choice B", "3": "Choice C"},  
         )
         ui.input_selectize(  
         "input10",  
-        "Select an option below:",  
+        "?",  
         {"1": "Choice A", "2": "Choice B", "3": "Choice C"},  
         )
 
