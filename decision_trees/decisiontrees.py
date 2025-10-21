@@ -15,6 +15,8 @@ numerical_indices = {6, 12, 19, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 
 categorical_indices = categorical_indices - numerical_indices
 
 tree = construct_tree(train_set, [i for i in range(n-1)], categorical_indices)
+# For random forest, make many decision trees, each trained on different subsets of data w/ feature randomness
+# and bootstrapping, classification is majority vote of all decision trees
 
 acc = accuracy(tree, test_set)
 print(f"Accuracy: {acc}")
