@@ -78,3 +78,28 @@ def train_logistic_regression(data, learning_rate, iterations):
             print(f"Iteration number: {iter:3d}  Loss: {loss: .3f}")
 
     return weights, biases
+
+def make_prediction(weights, bias, instance):
+    z = np.dot(instance, weights) + bias
+    if sigmoid(z) >= 0.5:
+        return 1 
+    else:
+        return 0
+
+def predict_probability(weights, bias, instance):
+    z = np.dot(instance, weights) + bias
+    return sigmoid(z)
+
+# Accuracy calculation
+def get_accuracy(weights, bias, test_set):
+    correct = 0
+    for example in test_set:
+        # get features
+        x = example[:-1]
+        # get label
+        y_true = int(example[-1])
+        y_prediction = make_prediction(weights, bias, x)
+        # see if prediction is correct
+        if y_prediction == y_true:
+            correct += 1
+    return correct / len(test_set)
