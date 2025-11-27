@@ -2,9 +2,12 @@ import numpy as np
 from helper import *
 import matplotlib.pyplot as plt
 
-# Load data and split into training and testing sets
+
+# load data and split into training and testing sets
 # skip first row cause of column headers
 data = np.loadtxt('../clean_data.csv', delimiter=',', skiprows=1)
+
+# Split into train/test using your existing helper
 training_set, testing_set = split_data(data)
 
 # Train logistic regression model
@@ -14,6 +17,12 @@ model_weights, model_biases = train_logistic_regression(updated_array, 0.05,1000
 # get model accuracy
 model_accuracy = get_accuracy(model_weights, model_biases, np.array(testing_set))
 print(f"Model Accuracy: {model_accuracy: .3f}")
+
+
+# Get confusion matrix
+confusion_matrix = calculate_confusion_matrix(model_weights, model_biases, testing_set)
+print("Confusion Matrix:")
+print(confusion_matrix)
 
 
 # Calculate and plot precision recall curve
@@ -35,4 +44,3 @@ plt.title('Logistic Regression ROC Curve')
 plt.legend()
 plt.grid(True)
 plt.show()
-

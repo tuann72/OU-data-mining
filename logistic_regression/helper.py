@@ -212,3 +212,28 @@ def calculate_roc_curve(weights, bias, test_set):
     auc = np.trapezoid(tpr_list, fpr_list)
     return fpr_list, tpr_list, auc
 
+
+
+# calculate confusion matrix
+def calculate_confusion_matrix(weights, bias, test_set):
+    true_positive = 0
+    false_positive = 0
+    true_negative = 0
+    false_negative = 0
+
+    for example in test_set:
+        x = example[:-1]
+        y_true = int(example[-1])
+        y_pred = make_prediction(weights, bias, x)
+
+        if y_true == 1 and y_pred == 1:
+            true_positive += 1
+        elif y_true == 1 and y_pred == 0:
+            false_negative += 1
+        elif y_true == 0 and y_pred == 1:
+            false_positive += 1
+        elif y_true == 0 and y_pred == 0:
+            true_negative += 1
+
+    return np.array([[true_positive, false_positive],
+                     [false_negative, true_negative]])
