@@ -113,35 +113,66 @@ with ui.navset_card_tab(id="tab"):
       with ui.card():  
         ui.card_header("Dataset")
 
-        ui.input_checkbox_group(  
-        "checkbox_group",  
+        ui.input_radio_buttons(  
+        "radio_group",  
         "Method of Choice",  
           {  
-              "a": "Decision Trees",  
-              "b": "Naive Bayes",  
-              "c": "Logistic Regression",  
+              "d": "Decision Trees",  
+              "n": "Naive Bayes",  
+              "l": "Logistic Regression",  
           },  
         )
-        def value():
-          return ", ".join(input.checkbox_group())
         
         ui.input_action_button("predict_button", "Predict")
+        @reactive.effect
         @reactive.event(input.predict_button)
         def predictBtn():
-            return f"{input.predict_button()}"
+          list_of_inputs = []
+
+          # store all inputs into a list
+          list_of_inputs.extend([
+             input.input1(),
+             input.input2(),
+             input.input3(),
+             input.input4(),
+             input.input5(),
+             input.input6(),
+             input.input7(),
+             input.input8(),
+             input.input9(),
+             input.input10()
+          ])
+
+          # convert all values to ints
+          list_of_inputs = list(map(float, list_of_inputs))
+
+          classifier(style="single", method=input.radio_group(),input=list_of_inputs)
         
   with ui.nav_panel("Mass Input"):
-    ui.input_file("m", "Upload multiple records")
-    @render.text
-    def massTxt():
-      return input.m()
+    ui.input_file("m", "Upload csv of multiple records", accept=".csv")
+    ui.br()
 
+    ui.input_radio_buttons(  
+      "radio_group2",  
+      "Method of Choice",  
+        {  
+            "d": "Decision Trees",  
+            "n": "Naive Bayes",  
+            "l": "Logistic Regression",  
+        },  
+      )
     ui.input_action_button("mass_predict_button", "Mass Prediction/Classification")  
+    @reactive.effect
     @reactive.event(input.mass_predict_button)
     def massPredictBtn():
-        return f"{input.mass_predict_button()}"
+        fileInfo = input.m()
+        file_path = fileInfo[0]["datapath"]
+        df = pd.read_csv(file_path)
+        list_of_inputs = df.values.tolist()
+        classifier(style="multi", method=input.radio_group2(),input=list_of_inputs)
   
     ui.input_action_button("export_button", "Export Result as CSV")
+    @reactive.effect
     @reactive.event(input.export_single_button)
     def exportSingleBtn():
         return f"{input.export_single_button()}"
@@ -149,6 +180,8 @@ with ui.navset_card_tab(id="tab"):
   with ui.nav_panel("Visualizations"):
      pass
 
-
-
-
+def classifier(style, method, input):
+  if style == "single":
+    pass
+  elif style == "multi":
+    pass
