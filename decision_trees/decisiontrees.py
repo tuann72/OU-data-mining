@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from helper import *
+import pandas as pd
 
 # Read in data
 data = np.loadtxt('../clean_data.csv', delimiter=',', skiprows=1)
@@ -23,6 +24,14 @@ print(f"Accuracy: {acc}")
 
 # Plot PR Curve
 precision_e, recall_e, auc = compute_pr_curve(tree, test_set)
+
+df = pd.DataFrame({
+  "m_pre" : precision_e,
+  "m_rec" : recall_e,
+  "auc_pr" : auc
+})
+df.to_csv("../decisiontree_pr.csv", index=False)
+
 plt.plot(recall_e, precision_e, label=f'AUC = {auc:.4f}')
 plt.xlabel('Recall', fontsize=16)
 plt.ylabel('Precision', fontsize=16)
@@ -38,6 +47,14 @@ print(f"AUC (PR): {auc}")
 fpr, tpr, auc = compute_roc_curve(tree, test_set)
 
 # Plot ROC curve
+
+df = pd.DataFrame({
+  "fp" : fpr,
+  "tp" : tpr,
+  "auc_roc" : auc
+})
+df.to_csv("../decisiontree_roc.csv", index=False)
+
 plt.figure()
 plt.plot(fpr, tpr, label=f'ROC Curve (AUC = {auc:.4f})')
 plt.plot([0, 1], [0, 1], linestyle='--', color='gray', label='Random Classifier')
