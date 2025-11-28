@@ -74,82 +74,74 @@ with ui.navset_card_tab(id="tab"):
           {"1": "Daytime", "0": "Evening"}
         )
 
-        ui.input_numeric(
-          "input3",
-          "Previous Qualification Grade",
-          value=100,
-          min=0,
-          max=200
-        )
-
         ui.input_selectize(
-          "input4",
+          "input3",
           "Nationality",
           {"1": "Portuguese", "2": "German", "6": "Spanish", "11": "Italian", "13": "Dutch", "14": "English", "17": "Lithuanian", "21": "Angolan", "22": "Cape Verdean", "24": "Guinean", "25": "Mozambican", "26": "Santomean", "32": "Turkish", "41": "Brazilian", "62": "Romanian", "100": "Moldova (Republic of)", "101": "Mexican", "103": "Ukrainian", "105": "Russian", "108": "Cuban", "109": "Colombian"}
         )
 
         ui.input_selectize(
-          "input5",
+          "input4",
           "Mother's Qualification",
           {"1": "Secondary Education-12th Year", "2": "Higher Education-Bachelor's", "3": "Higher Education -Degree", "4": "Higher Education -Master's", "5": "Higher Education -Doctorate", "6": "Frequency of Higher Education", "9": "12th Year - Not Completed", "10": "11th Year - Not Completed", "11": "7th Year (Old)", "12": "Other - 11th Year", "14": "10th Year", "18": "General commerce course", "19": "Basic Education 3rd Cycle", "22": "Technical-professional course", "26": "7th year", "27": "2nd cycle general high school", "29": "9th Year - Not Completed", "30": "8th year", "34": "Unknown", "35": "Can't read or write", "36": "Can read without 4th year", "37": "Basic education 1st cycle", "38": "Basic Education 2nd Cycle", "39": "Technological specialization", "40": "Higher education - degree (1st cycle)", "41": "Specialized higher studies", "42": "Professional higher technical", "43": "Higher Education - Master (2nd cycle)", "44": "Higher Education - Doctorate (3rd cycle)"}
         )
 
         ui.input_selectize(
-          "input6",
+          "input5",
           "Father's Qualification",
           {"1": "Secondary Education-12th Year", "2": "Higher Education-Bachelor's", "3": "Higher Education-Degree", "4": "Higher Education-Master's", "5": "Higher Education - Doctorate", "6": "Frequency of Higher Education", "9": "12th Year - Not Completed", "10": "11th Year - Not Completed", "11": "7th Year (Old)", "12": "Other - 11th Year", "13": "2nd year complementary high school", "14": "10th Year", "18": "General commerce course", "19": "Basic Education 3rd Cycle", "20": "Complementary High School", "22": "Technical-professional course", "25": "Complementary High School - not concluded", "26": "7th year", "27": "2nd cycle general high school", "29": "9th Year - Not Completed", "30": "8th year", "31": "General Course Administration and Commerce", "33": "Supplementary Accounting and Administration", "34": "Unknown", "35": "Can't read or write", "36": "Can read without 4th year", "37": "Basic education 1st cycle", "38": "Basic Education 2nd Cycle", "39": "Technological specialization", "40": "Higher education - degree (1st cycle)", "41": "Specialized higher studies", "42": "Professional higher technical", "43": "Higher Education - Master (2nd cycle)", "44": "Higher Education - Doctorate (3rd cycle)"}
         )
 
         ui.input_selectize(
-          "input7",
+          "input6",
           "Mother's Occupation",
           {"0": "Student", "1": "Legislative/Executive Representatives", "2": "Specialists in Intellectual Activities", "3": "Intermediate Level Technicians", "4": "Administrative staff", "5": "Personal Services Workers", "6": "Agriculture/Fisheries Workers", "7": "Skilled Workers in Industry", "8": "Machine Operators", "9": "Unskilled Workers", "10": "Armed Forces", "90": "Other Situation", "99": "(blank)", "122": "Health professionals", "123": "Teachers", "125": "ICT Specialists", "131": "Science/engineering technicians", "132": "Health technicians", "134": "Legal/social/cultural technicians", "141": "Office workers", "143": "Data/accounting operators", "144": "Other administrative support", "151": "Personal service workers", "152": "Sellers", "153": "Personal care workers", "171": "Construction workers", "173": "Printing/precision workers", "175": "Food/woodworking workers", "191": "Cleaning workers", "192": "Unskilled agriculture workers", "193": "Unskilled industry workers", "194": "Meal preparation assistants"}
         )
 
         ui.input_selectize(
-          "input8",
+          "input7",
           "Father's Occupation",
           {"0": "Student", "1": "Legislative/Executive Representatives", "2": "Specialists in Intellectual Activities", "3": "Intermediate Level Technicians", "4": "Administrative staff", "5": "Personal Services Workers", "6": "Agriculture/Fisheries Workers", "7": "Skilled Workers in Industry", "8": "Machine Operators", "9": "Unskilled Workers", "10": "Armed Forces", "90": "Other Situation", "99": "(blank)", "101": "Armed Forces Officers", "102": "Armed Forces Sergeants", "103": "Other Armed Forces", "112": "Directors administrative/commercial", "114": "Hotel/catering directors", "121": "Physical sciences specialists", "122": "Health professionals", "123": "Teachers", "124": "Finance/accounting specialists", "131": "Science/engineering technicians", "132": "Health technicians", "134": "Legal/social/cultural technicians", "135": "ICT technicians", "141": "Office workers", "143": "Data/accounting operators", "144": "Other administrative support", "151": "Personal service workers", "152": "Sellers", "153": "Personal care workers", "154": "Protection/security personnel", "161": "Farmers/agricultural workers", "163": "Subsistence farmers", "171": "Construction workers", "172": "Metallurgy workers", "174": "Electricity/electronics workers", "175": "Food/woodworking workers", "181": "Plant/machine operators", "182": "Assembly workers", "183": "Vehicle drivers", "192": "Unskilled agriculture workers", "193": "Unskilled industry workers", "194": "Meal preparation assistants", "195": "Street vendors"}
         )
 
         ui.input_selectize(
-          "input9",
+          "input8",
           "Displaced",
           {"1": "Yes", "0": "No"}
         )
 
         ui.input_selectize(
-          "input10",
+          "input9",
           "Educational Special Needs",
           {"1": "Yes", "0": "No"}
         )
 
         ui.input_selectize(
-          "input11",
+          "input10",
           "Debtor",
           {"1": "Yes", "0": "No"}
         )
 
         ui.input_selectize(
-          "input12",
+          "input11",
           "Tuition Fees Up to Date",
           {"1": "Yes", "0": "No"}
         )
 
         ui.input_selectize(
-          "input13",
+          "input12",
           "Gender",
           {"1": "Male", "0": "Female"}
         )
 
         ui.input_selectize(
-          "input14",
+          "input13",
           "Scholarship Holder",
           {"1": "Yes", "0": "No"}
         )
 
         ui.input_numeric(
-          "input15",
+          "input14",
           "Age at Enrollment",
           value=20,
           min=17,
@@ -157,13 +149,29 @@ with ui.navset_card_tab(id="tab"):
         )
 
         ui.input_selectize(
-          "input16",
+          "input15",
           "International",
           {"1": "Yes", "0": "No"}
         )
 
         ui.input_numeric(
+          "input16",
+          "Curricular Units 1st Sem (Credited)",
+          value=0,
+          min=0,
+          max=20
+        )
+
+        ui.input_numeric(
           "input17",
+          "Curricular Units 2nd Sem (Credited)",
+          value=0,
+          min=0,
+          max=20
+        )
+
+        ui.input_numeric(
+          "input18",
           "Unemployment Rate (%)",
           value=10.0,
           min=0,
@@ -172,7 +180,7 @@ with ui.navset_card_tab(id="tab"):
         )
 
         ui.input_numeric(
-          "input18",
+          "input19",
           "Inflation Rate (%)",
           value=2.0,
           min=-10,
@@ -181,28 +189,12 @@ with ui.navset_card_tab(id="tab"):
         )
 
         ui.input_numeric(
-          "input19",
+          "input20",
           "GDP",
           value=1.0,
           min=-10,
           max=10,
           step=0.1
-        )
-
-        ui.input_numeric(
-          "input20",
-          "Curricular Units 1st Sem (Credited)",
-          value=0,
-          min=0,
-          max=20
-        )
-
-        ui.input_numeric(
-          "input21",
-          "Curricular Units 2nd Sem (Credited)",
-          value=0,
-          min=0,
-          max=20
         )
 
       with ui.card():  
@@ -246,7 +238,6 @@ with ui.navset_card_tab(id="tab"):
              input.input18(),
              input.input19(),
              input.input20(),
-             input.input21(),
           ])
 
           # convert all values to ints
