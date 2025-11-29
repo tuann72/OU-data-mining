@@ -6,6 +6,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.metrics import ConfusionMatrixDisplay
+import decision_trees.helper as dt
+import naive_bayes.helper as nb
+from datetime import datetime
 
 ### TEST DATA FOR FIGURES
 df = pd.read_csv("clean_data.csv")
@@ -198,6 +201,7 @@ with ui.navset_card_tab(id="tab"):
         )
 
       with ui.card():  
+        results  = reactive.value("")
         ui.card_header("Dataset")
 
         ui.input_radio_buttons(  
@@ -205,8 +209,7 @@ with ui.navset_card_tab(id="tab"):
         "Method of Choice",  
           {  
               "d": "Decision Trees",  
-              "n": "Naive Bayes",  
-              "l": "Logistic Regression",  
+              "n": "Naive Bayes" 
           },  
         )
         
@@ -243,9 +246,15 @@ with ui.navset_card_tab(id="tab"):
           # convert all values to ints
           list_of_inputs = list(map(float, list_of_inputs))
 
-          classifier(style="single", method=input.radio_group(),input=list_of_inputs)
+          results.set(classifier(style="single", method=input.radio_group(),input=list_of_inputs))
+        
+        @render.text
+        def single_result():
+          return f"Prediction: {results()}"
         
   with ui.nav_panel("Mass Input"):
+    confirmation = reactive.value("")
+    frame = reactive.value(pd.DataFrame())
     ui.input_file("m", "Upload csv of multiple records", accept=".csv")
     ui.br()
 
@@ -254,8 +263,7 @@ with ui.navset_card_tab(id="tab"):
       "Method of Choice",  
         {  
             "d": "Decision Trees",  
-            "n": "Naive Bayes",  
-            "l": "Logistic Regression",  
+            "n": "Naive Bayes"  
         },  
       )
     ui.input_action_button("mass_predict_button", "Mass Prediction/Classification")  
@@ -266,13 +274,25 @@ with ui.navset_card_tab(id="tab"):
         file_path = fileInfo[0]["datapath"]
         df = pd.read_csv(file_path)
         list_of_inputs = df.values.tolist()
-        classifier(style="multi", method=input.radio_group2(),input=list_of_inputs)
+        mass_res = classifier(style="multi", method=input.radio_group2(),input=list_of_inputs)
+        df["Classification"] = mass_res
+        frame.set(df)
+    
+    @render.data_frame
+    def createFrameResult():
+      return frame()
   
     ui.input_action_button("export_button", "Export Result as CSV")
     @reactive.effect
-    @reactive.event(input.export_single_button)
+    @reactive.event(input.export_button)
     def exportSingleBtn():
-        return f"{input.export_single_button()}"
+      dat = frame()
+      dat.to_csv("results.csv", index=False)
+      confirmation.set("Saved as results.csv | Time: " + str(datetime.now()))
+
+    @render.text
+    def mass_confirm():
+      return confirmation()
 
 #-------------------------- Visualizations Tab 
   with ui.nav_panel("Visualizations"):
@@ -290,7 +310,7 @@ with ui.navset_card_tab(id="tab"):
       
       @render.plot
       def confusion_dec():
-        dat = np.loadtxt("log_cm.csv", delimiter=",", dtype=int)
+        dat = np.loadtxt("decisiontree_cm.csv", delimiter=",", dtype=int)
         figure, axis = plt.subplots(figsize=(4,4))
         display = ConfusionMatrixDisplay(confusion_matrix=dat,display_labels=["Dropout", "Non-Dropout"])
         display.plot(ax=axis, cmap="Greens", values_format="d", colorbar=False)
@@ -300,7 +320,7 @@ with ui.navset_card_tab(id="tab"):
       
       @render.plot
       def confusion_nav():
-        dat = np.loadtxt("log_cm.csv", delimiter=",", dtype=int)
+        dat = np.loadtxt("naivebayes_cm.csv", delimiter=",", dtype=int)
         figure, axis = plt.subplots(figsize=(4,4))
         display = ConfusionMatrixDisplay(confusion_matrix=dat,display_labels=["Dropout", "Non-Dropout"])
         display.plot(ax=axis, cmap="Greens", values_format="d", colorbar=False)
@@ -339,7 +359,150 @@ with ui.navset_card_tab(id="tab"):
         plt.grid(True)
 
 def classifier(style, method, input):
+  results = ""
   if style == "single":
-    print(input)
+    if method == "d":
+      results = decisionTreePredict(input)
+    else:
+      results = naviePredict(input)
   elif style == "multi":
-    print(input)
+    if method == "d":
+      results = decisionTreePredict(input, multiple=True)
+    else:
+      results = naviePredict(input, multiple=True)
+  return results
+
+def decisionTreePredict(input, multiple=False):
+  data = np.loadtxt("clean_data.csv", delimiter=',', skiprows=1)
+  # Get number of examples m and dimensionality n
+  m, n = np.shape(data)
+
+  # Split dataset into training and testing
+  train_set, test_set = dt.split_data(data)
+
+  categorical_indices = {i for i in range(n)}
+  numerical_indices = {13, 15, 16, 17, 18, 19}
+  categorical_indices = categorical_indices - numerical_indices
+
+  tree = dt.construct_tree(train_set, [i for i in range(n-1)], categorical_indices)
+  if(multiple == False):
+    res = dt.predict(tree, input)
+    if(res == 0):
+      res = "Dropout"
+    else:
+      res = "Non-Dropout"
+  else:
+    res = []
+    for record in input:
+      temp = dt.predict(tree, record)
+      if(temp == 0):
+        temp = "Dropout"
+      else:
+        temp = "Non-Dropout"
+      res.append(temp)
+
+  return res
+
+def naviePredict(input, multiple = False):
+  data = np.loadtxt("clean_data.csv", delimiter=',', skiprows=1)
+  m, n = np.shape(data)
+  n -= 1
+  num_neg, num_pos = 0, 0
+  mu_neg, mu_pos = [0 for i in range(n)], [0 for i in range(n)]
+  train_set, test_set = nb.split_data(data)
+
+  # Mu values for continuous features
+  for instance in train_set:
+      if instance[n] > 0: 
+          num_pos += 1
+          for i in range(n):
+              mu_pos[i] += instance[i]
+      else:
+          num_neg += 1
+          for i in range(n):
+              mu_neg[i] += instance[i]
+
+  for i in range(n):
+    mu_neg[i] = mu_neg[i] / num_neg
+    mu_pos[i] = mu_pos[i] / num_pos
+
+  # Sigma squared values for continuous features
+  sigma_neg, sigma_pos = [0 for i in range(n)], [0 for i in range(n)]
+
+  for instance in train_set:
+      if instance[n] > 0: 
+          for i in range(n):
+              sigma_pos[i] += (instance[i] - mu_pos[i])**2
+      else:
+          for i in range(n):
+              sigma_neg[i] += (instance[i] - mu_neg[i])**2
+
+  # Conditional probs for categorical features
+  for i in range(n):
+      sigma_neg[i] = sigma_neg[i] / (num_neg-1)
+      sigma_pos[i] = sigma_pos[i] / (num_pos-1)
+
+  categorical_indices = {i for i in range(n)}
+  numerical_indices = {13, 15, 16, 17, 18, 19}
+  categorical_indices = categorical_indices - numerical_indices
+
+  cat_counts_neg = [{} for i in range(n)]
+  cat_counts_pos = [{} for i in range(n)]
+
+  possible_values = {
+      0: [1, 2, 3, 4, 5, 6], # Marital Status
+      1: [0, 1], # Daytime/Evening Attendance
+      2: [1, 2, 6, 11, 13, 14, 17, 21, 22, 24, 25, 26, 32, 41, 62, 100, 101, 103, 105, 108, 109], # Nationality
+      3: [1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 14, 18, 19, 22, 26, 27, 29, 30, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44], # Mothers Qualification
+      4: [1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 18, 19, 20, 22, 25, 26, 27, 29, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44], # Fathers Qualification
+      5: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 90, 99, 122, 123, 125, 131, 132, 134, 141, 143, 144, 151, 152, 153, 171, 173, 175, 191, 192, 193, 194], # Mothers Occupation
+      6: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 90, 99, 101, 102, 103, 112, 114, 121, 122, 123, 124, 131, 132, 134, 135, 141, 143, 144, 151, 152, 153, 154, 161, 163, 171, 172, 174, 175, 181, 182, 183, 192, 193, 194, 195], # Fathers Occupation
+      7: [0, 1], # Displaced
+      8: [0, 1], # Educational Special Needs
+      9: [0, 1], # Debtor
+      10: [0, 1], # Tuition Fees Up to Date
+      11: [0, 1], # Gender
+      12: [0, 1], # Scholarship Holder
+      14: [0, 1], # International
+      20: [0, 1] # Target
+  }
+
+  for i in categorical_indices:
+      for val in possible_values[i]:
+          cat_counts_pos[i][val] = 0
+          cat_counts_neg[i][val] = 0
+
+  for instance in train_set:
+      cls = 'pos' if instance[n] > 0 else 'neg'
+      for i in categorical_indices:
+          val = instance[i]
+          # count occurrences for categorical
+          d = cat_counts_pos[i] if cls == 'pos' else cat_counts_neg[i]
+          d[val] = d.get(val, 0) + 1
+
+  for i in categorical_indices:
+      K = len(possible_values[i])
+      for val in possible_values[i]:
+          cat_counts_pos[i][val] = (cat_counts_pos[i][val] + 1) / (num_pos + K)
+          cat_counts_neg[i][val] = (cat_counts_neg[i][val] + 1) / (num_neg + K)
+
+  if(multiple == False):
+    neg_prior, pos_prior = (num_neg / len(train_set)), (num_pos / len(train_set))
+    prob_neg, prob_pos, prediction = nb.predict_naive(categorical_indices, n, pos_prior, neg_prior, input, mu_neg, mu_pos, sigma_neg, sigma_pos, cat_counts_neg, cat_counts_pos)
+    if(prediction == 0):
+      prediction = "Dropout"
+    else:
+      prediction = "Non-Dropout"
+    return prediction
+  else:
+    predictions = []
+    for record in input:
+      # Reset negative and positive class probabilities for each instance
+      neg_prior, pos_prior = (num_neg / len(train_set)), (num_pos / len(train_set))
+      prob_neg, prob_pos, res = nb.predict_naive(categorical_indices, n, pos_prior, neg_prior, record, mu_neg, mu_pos, sigma_neg, sigma_pos, cat_counts_neg, cat_counts_pos)
+      if(res == 0):
+        pred = "Dropout"
+      else:
+         pred = "Non-Dropout"
+      predictions.append(pred)
+    return predictions
