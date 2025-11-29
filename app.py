@@ -290,9 +290,9 @@ with ui.navset_card_tab(id="tab"):
       
       @render.plot
       def confusion_dec():
-        temp = np.array([[45,5], [10,40]])
+        dat = np.loadtxt("log_cm.csv", delimiter=",", dtype=int)
         figure, axis = plt.subplots(figsize=(4,4))
-        display = ConfusionMatrixDisplay(confusion_matrix=temp,display_labels=["Dropout", "Non-Dropout"])
+        display = ConfusionMatrixDisplay(confusion_matrix=dat,display_labels=["Dropout", "Non-Dropout"])
         display.plot(ax=axis, cmap="Greens", values_format="d", colorbar=False)
         axis.set_title("Decision Tree", fontsize=12)
         plt.tight_layout()
@@ -300,9 +300,9 @@ with ui.navset_card_tab(id="tab"):
       
       @render.plot
       def confusion_nav():
-        temp = np.array([[45,5], [10,40]])
+        dat = np.loadtxt("log_cm.csv", delimiter=",", dtype=int)
         figure, axis = plt.subplots(figsize=(4,4))
-        display = ConfusionMatrixDisplay(confusion_matrix=temp,display_labels=["Dropout", "Non-Dropout"])
+        display = ConfusionMatrixDisplay(confusion_matrix=dat,display_labels=["Dropout", "Non-Dropout"])
         display.plot(ax=axis, cmap="Greens", values_format="d", colorbar=False)
         axis.set_title("Naive Bayes", fontsize=12)
         plt.tight_layout()
@@ -313,9 +313,11 @@ with ui.navset_card_tab(id="tab"):
       @render.plot
       def plotPR():
         log_dat = pd.read_csv("logstic_pr.csv")
+        dec_dat = pd.read_csv("decisiontree_pr.csv")
+        nai_dat = pd.read_csv("naivebayes_pr.csv")
         plt.plot(log_dat["m_rec"].values, log_dat["m_pre"].values, label=f'Logistic Regression = {log_dat["auc_pr"].values[0]: .3f}')
-        plt.plot([1,2,3], [3,3,2], label=f'Decision Trees = {123.123: .3f}')
-        plt.plot([1,2,3], [1,2,3], label=f'Naive Bayes = {123.123: .3f}')
+        plt.plot(dec_dat["m_rec"].values, dec_dat["m_pre"].values, label=f'Decision Trees  = {dec_dat["auc_pr"].values[0]: .3f}')
+        plt.plot(nai_dat["m_rec"].values, nai_dat["m_pre"].values, label=f'Naive Bayes = {nai_dat["auc_pr"].values[0]: .3f}')
         plt.xlabel('Recall')
         plt.ylabel('Precision')
         plt.title('Precision Recall Curve')
@@ -325,9 +327,11 @@ with ui.navset_card_tab(id="tab"):
       @render.plot
       def plotROC():
         log_dat = pd.read_csv("logstic_roc.csv")
+        dec_dat = pd.read_csv("decisiontree_roc.csv")
+        nai_dat = pd.read_csv("naivebayes_roc.csv")
         plt.plot(log_dat["fp"].values, log_dat["tp"].values, label=f'Logistic Regression = {log_dat["auc_roc"].values[0]: .3f}')
-        plt.plot([1,2,3], [3,3,2], label=f'Decision Trees = {123.123: .3f}')
-        plt.plot([1,2,3], [1,2,3], label=f'Naive Bayes = {123.123: .3f}')
+        plt.plot(dec_dat["fp"].values, dec_dat["tp"].values, label=f'Decision Trees  = {dec_dat["auc_roc"].values[0]: .3f}')
+        plt.plot(nai_dat["fp"].values, nai_dat["tp"].values, label=f'Naive Bayes = {nai_dat["auc_roc"].values[0]: .3f}')
         plt.xlabel('False Positive Rate')
         plt.ylabel('True Positive Rate')
         plt.title('ROC Curve')
