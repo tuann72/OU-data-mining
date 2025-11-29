@@ -325,7 +325,7 @@ with ui.navset_card_tab(id="tab"):
         # create a 2x2 plot
         figure, axis = plt.subplots(figsize=(4,4))
         # create a confusion matrix display
-        display = ConfusionMatrixDisplay(confusion_matrix=dat,display_labels=["Dropout", "Non-Dropout"])
+        display = ConfusionMatrixDisplay(confusion_matrix=dat,display_labels=["Non-Dropout", "Dropout"])
         # display plot
         display.plot(ax=axis, cmap="Greens", values_format="d", colorbar=False)
         # title plot
@@ -337,7 +337,7 @@ with ui.navset_card_tab(id="tab"):
       def confusion_dec():
         dat = np.loadtxt("decisiontree_cm.csv", delimiter=",", dtype=int)
         figure, axis = plt.subplots(figsize=(4,4))
-        display = ConfusionMatrixDisplay(confusion_matrix=dat,display_labels=["Dropout", "Non-Dropout"])
+        display = ConfusionMatrixDisplay(confusion_matrix=dat,display_labels=["Non-Dropout", "Dropout"])
         display.plot(ax=axis, cmap="Greens", values_format="d", colorbar=False)
         axis.set_title("Decision Tree", fontsize=12)
         plt.tight_layout()
@@ -347,7 +347,7 @@ with ui.navset_card_tab(id="tab"):
       def confusion_nav():
         dat = np.loadtxt("naivebayes_cm.csv", delimiter=",", dtype=int)
         figure, axis = plt.subplots(figsize=(4,4))
-        display = ConfusionMatrixDisplay(confusion_matrix=dat,display_labels=["Dropout", "Non-Dropout"])
+        display = ConfusionMatrixDisplay(confusion_matrix=dat,display_labels=["Non-Dropout", "Dropout"])
         display.plot(ax=axis, cmap="Greens", values_format="d", colorbar=False)
         axis.set_title("Naive Bayes", fontsize=12)
         plt.tight_layout()
