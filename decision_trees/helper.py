@@ -11,28 +11,7 @@ class TreeNode:
         self.branches = {}
         self.prob = prob
 
-# possible_values = {
-#     0: [1, 2, 3, 4, 5, 6],
-#     1: [1, 2, 5, 7, 10, 15, 16, 17, 18, 26, 27, 39, 42, 43, 44, 51, 53, 57],
-#     2: [0, 1, 2, 3, 4, 5, 6, 9],
-#     3: [33, 171, 8014, 9003, 9070, 9085, 9119, 9130, 9147, 9238, 9254, 9500, 9556, 9670, 9773, 9853, 9991],
-#     4: [0, 1],
-#     5: [1, 2, 3, 4, 5, 6, 9, 10, 12, 14, 15, 19, 38, 39, 40, 42, 43],
-#     7: [1, 2, 6, 11, 13, 14, 17, 21, 22, 24, 25, 26, 32, 41, 62, 100, 101, 103, 105, 108, 109],
-#     8: [1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 14, 18, 19, 22, 26, 27, 29, 30, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44],
-#     9: [1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 18, 19, 20, 22, 25, 26, 27, 29, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44],
-#     10: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 90, 99, 122, 123, 125, 131, 132, 134, 141, 143, 144, 151, 152, 153, 171, 173, 175, 191, 192, 193, 194],
-#     11: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 90, 99, 101, 102, 103, 112, 114, 121, 122, 123, 124, 131, 132, 134, 135, 141, 143, 144, 151, 152, 153, 154, 161, 163, 171, 172, 174, 175, 181, 182, 183, 192, 193, 194, 195],
-#     13: [0, 1],
-#     14: [0, 1],
-#     15: [0, 1],
-#     16: [0, 1],
-#     17: [0, 1],
-#     18: [0, 1],
-#     20: [0, 1],
-#     36: [0, 1]
-# }
-
+MIN_INSTANCES = 150
 possible_values = {
     0: [1, 2, 3, 4, 5, 6], # Marital Status
     1: [0, 1], # Daytime/Evening Attendance
@@ -189,8 +168,8 @@ def construct_tree(data, attributes, categorical_indices):
         root.prob = 0.0
         return root
 
-    # If attributes empty, return single-node tree Root w label = majority class
-    if not attributes: 
+    # If attributes empty/too few instances, return single-node tree Root w label = majority class
+    if not attributes or len(data) < MIN_INSTANCES: 
         root.label = majority_class(data)
         root.is_leaf = True
         root.prob = target_sum / len(data)
