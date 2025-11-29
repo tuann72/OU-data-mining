@@ -8,17 +8,22 @@ categorical_indices = {i for i in range(21)}
 numerical_indices = {13, 15, 16, 17, 18, 19}
 categorical_indices = categorical_indices - numerical_indices
 
-possible_values = {i: set() for i in categorical_indices}
+possible_values = {i: {} for i in categorical_indices}
 
 with open("clean_data.csv", 'r') as f:
     reader = csv.reader(f, delimiter=",")
     next(reader)
     for row in reader:
         for i in categorical_indices:
-            if row[i] not in possible_values[i]:
-                possible_values[i].add(int(row[i]))
+            val = int(row[i])
+            if val not in possible_values[i]:
+                possible_values[i][val] = 1
+            else:
+                possible_values[i][val] += 1
 
 print("{")
 for k, v in possible_values.items():
     print(f"{k}: {sorted(v)},")
 print("}")
+
+# print(possible_values)

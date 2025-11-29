@@ -22,9 +22,9 @@ tree = construct_tree(train_set, [i for i in range(n-1)], categorical_indices)
 acc = accuracy(tree, test_set)
 print(f"Accuracy: {acc}")
 
-# Plot PR Curve
 precision_e, recall_e, auc = compute_pr_curve(tree, test_set)
 
+# Export precision-recall data to csv
 df = pd.DataFrame({
   "m_pre" : precision_e,
   "m_rec" : recall_e,
@@ -32,6 +32,7 @@ df = pd.DataFrame({
 })
 df.to_csv("../decisiontree_pr.csv", index=False)
 
+# Plot PR Curve
 plt.plot(recall_e, precision_e, label=f'AUC = {auc:.4f}')
 plt.xlabel('Recall', fontsize=16)
 plt.ylabel('Precision', fontsize=16)
@@ -46,8 +47,7 @@ print(f"AUC (PR): {auc}")
 
 fpr, tpr, auc = compute_roc_curve(tree, test_set)
 
-# Plot ROC curve
-
+# Export ROC data to csv
 df = pd.DataFrame({
   "fp" : fpr,
   "tp" : tpr,
@@ -55,6 +55,7 @@ df = pd.DataFrame({
 })
 df.to_csv("../decisiontree_roc.csv", index=False)
 
+# Plot ROC curve
 plt.figure()
 plt.plot(fpr, tpr, label=f'ROC Curve (AUC = {auc:.4f})')
 plt.plot([0, 1], [0, 1], linestyle='--', color='gray', label='Random Classifier')
