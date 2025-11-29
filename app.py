@@ -26,7 +26,7 @@ with ui.navset_card_tab(id="tab"):
       # Target Display
       @render_widget
       def plot():
-          # Summarize the Target column to avoid plotting per-row
+          # Summarize the Target column
           summary = df["Target"].value_counts().reset_index()
           summary.columns = ["Target", "Count"]
 
@@ -65,6 +65,7 @@ with ui.navset_card_tab(id="tab"):
     with ui.layout_columns():
       with ui.card():  
         ui.card_header("Input Fields")
+        # example input ui component
         ui.input_selectize(
           "input1",
           "Marital Status",
@@ -213,6 +214,7 @@ with ui.navset_card_tab(id="tab"):
           },  
         )
         
+        # button with action listern for prediction
         ui.input_action_button("predict_button", "Predict")
         @reactive.effect
         @reactive.event(input.predict_button)
@@ -246,18 +248,24 @@ with ui.navset_card_tab(id="tab"):
           # convert all values to ints
           list_of_inputs = list(map(float, list_of_inputs))
 
+          # reactively set variable to render text
           results.set(classifier(style="single", method=input.radio_group(),input=list_of_inputs))
         
+        # render results
         @render.text
         def single_result():
           return f"Prediction: {results()}"
         
   with ui.nav_panel("Mass Input"):
+    # store confrimation reactively
     confirmation = reactive.value("")
+    # store dataframe to display reactively
     frame = reactive.value(pd.DataFrame())
+    # upload ui component accepting csv
     ui.input_file("m", "Upload csv of multiple records", accept=".csv")
     ui.br()
 
+    # ui options to choose a method
     ui.input_radio_buttons(  
       "radio_group2",  
       "Method of Choice",  
@@ -266,30 +274,41 @@ with ui.navset_card_tab(id="tab"):
             "n": "Naive Bayes"  
         },  
       )
+
+    # button with listerner to mass predict
     ui.input_action_button("mass_predict_button", "Mass Prediction/Classification")  
     @reactive.effect
     @reactive.event(input.mass_predict_button)
     def massPredictBtn():
+        # load in file data
         fileInfo = input.m()
+        # store file path
         file_path = fileInfo[0]["datapath"]
+        # open up file path and store as dataframe
         df = pd.read_csv(file_path)
+        # convert records into a list of list
         list_of_inputs = df.values.tolist()
+        # mass classification
         mass_res = classifier(style="multi", method=input.radio_group2(),input=list_of_inputs)
         df["Classification"] = mass_res
         frame.set(df)
     
+    # render data frame as a table when prediction is completed
     @render.data_frame
     def createFrameResult():
       return frame()
   
+    # export button
     ui.input_action_button("export_button", "Export Result as CSV")
     @reactive.effect
     @reactive.event(input.export_button)
     def exportSingleBtn():
       dat = frame()
+      # export dataframe as csv
       dat.to_csv("results.csv", index=False)
       confirmation.set("Saved as results.csv | Time: " + str(datetime.now()))
 
+    # send confirmation text to inform user that it saved
     @render.text
     def mass_confirm():
       return confirmation()
@@ -297,13 +316,19 @@ with ui.navset_card_tab(id="tab"):
 #-------------------------- Visualizations Tab 
   with ui.nav_panel("Visualizations"):
 
+    ### render confusion matrix
     with ui.layout_columns():
       @render.plot
       def confusion_log():
+        # read confusion matrix results
         dat = np.loadtxt("log_cm.csv", delimiter=",", dtype=int)
+        # create a 2x2 plot
         figure, axis = plt.subplots(figsize=(4,4))
+        # create a confusion matrix display
         display = ConfusionMatrixDisplay(confusion_matrix=dat,display_labels=["Dropout", "Non-Dropout"])
+        # display plot
         display.plot(ax=axis, cmap="Greens", values_format="d", colorbar=False)
+        # title plot
         axis.set_title("Logistic Regression", fontsize=12)
         plt.tight_layout()
         return figure
@@ -328,16 +353,19 @@ with ui.navset_card_tab(id="tab"):
         plt.tight_layout()
         return figure
 
-
+    # Create plots for Precision recall curve and ROC curve
     with ui.layout_columns():
       @render.plot
       def plotPR():
+        # read in data points from each respective method
         log_dat = pd.read_csv("logstic_pr.csv")
         dec_dat = pd.read_csv("decisiontree_pr.csv")
         nai_dat = pd.read_csv("naivebayes_pr.csv")
+        # plot the curves
         plt.plot(log_dat["m_rec"].values, log_dat["m_pre"].values, label=f'Logistic Regression = {log_dat["auc_pr"].values[0]: .3f}')
         plt.plot(dec_dat["m_rec"].values, dec_dat["m_pre"].values, label=f'Decision Trees  = {dec_dat["auc_pr"].values[0]: .3f}')
         plt.plot(nai_dat["m_rec"].values, nai_dat["m_pre"].values, label=f'Naive Bayes = {nai_dat["auc_pr"].values[0]: .3f}')
+        # label plot
         plt.xlabel('Recall')
         plt.ylabel('Precision')
         plt.title('Precision Recall Curve')
@@ -360,7 +388,9 @@ with ui.navset_card_tab(id="tab"):
 
 def classifier(style, method, input):
   results = ""
+  # decide if method is for single prediction or multiple
   if style == "single":
+    # decide if method is decision trees or navie bayes
     if method == "d":
       results = decisionTreePredict(input)
     else:
@@ -371,6 +401,9 @@ def classifier(style, method, input):
     else:
       results = naviePredict(input, multiple=True)
   return results
+
+# The methods were copied over from the folders decision_trees and naive_bayes,
+# Further comments will be avalible in those files
 
 def decisionTreePredict(input, multiple=False):
   data = np.loadtxt("clean_data.csv", delimiter=',', skiprows=1)
