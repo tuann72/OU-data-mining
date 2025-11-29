@@ -58,3 +58,19 @@ def compute_roc_curve_nb(y_true, y_scores):
 
     auc = np.trapezoid(tpr_list, fpr_list)
     return fpr_list, tpr_list, auc
+
+def predict_naive(categorical_indices, n, pos_prior, neg_prior, instance, mu_neg, mu_pos, sigma_neg, sigma_pos, cat_counts_neg, cat_counts_pos):
+    prob_neg, prob_pos = neg_prior, pos_prior
+    # Calculate the probabilities for the instance belonging to negative and positive class
+    for i in range(n):
+        attr = instance[i]
+        if i not in categorical_indices:
+            prob_neg *= conditional_prob(attr, mu_neg[i], sigma_neg[i])
+            prob_pos *= conditional_prob(attr, mu_pos[i], sigma_pos[i])
+        else:
+            prob_neg *= cat_counts_neg[i][attr]
+            prob_pos *= cat_counts_pos[i][attr]
+    if prob_pos > prob_neg:
+        return prob_neg, prob_pos, 1
+    else:
+        return prob_neg, prob_pos, 0

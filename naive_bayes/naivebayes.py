@@ -102,23 +102,15 @@ true_pos, false_pos, false_neg, true_neg = 0, 0, 0, 0
 
 for instance in test_set:
     # Reset negative and positive class probabilities for each instance
-    prob_neg, prob_pos = (num_neg / len(train_set)), (num_pos / len(train_set))
-    # Calculate the probabilities for the instance belonging to negative and positive class
-    for i in range(n):
-        attr = instance[i]
-        if i not in categorical_indices:
-            prob_neg *= conditional_prob(attr, mu_neg[i], sigma_neg[i])
-            prob_pos *= conditional_prob(attr, mu_pos[i], sigma_pos[i])
-        else:
-            prob_neg *= cat_counts_neg[i][attr]
-            prob_pos *= cat_counts_pos[i][attr]
+    neg_prior, pos_prior = (num_neg / len(train_set)), (num_pos / len(train_set))
+    prob_neg, prob_pos, prediction = predict_naive(categorical_indices, n, pos_prior, neg_prior, instance, mu_neg, mu_pos, sigma_neg, sigma_pos, cat_counts_neg, cat_counts_pos)
     if instance[-1] == 0: 
-        if prob_neg > prob_pos: 
+        if prediction == 0: 
             true_neg += 1
         else:
             false_pos += 1
     else:
-        if prob_neg > prob_pos:
+        if prediction == 0:
             false_neg += 1
         else:
             true_pos += 1
