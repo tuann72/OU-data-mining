@@ -86,12 +86,6 @@ for instance in train_set:
         d = cat_counts_pos[i] if cls == 'pos' else cat_counts_neg[i]
         d[val] = d.get(val, 0) + 1
 
-# for i in categorical_indices:
-#     for val in cat_counts_pos[i]:
-#         cat_counts_pos[i][val] /= num_pos
-#     for val in cat_counts_neg[i]:
-#         cat_counts_neg[i][val] /= num_neg
-
 for i in categorical_indices:
     K = len(possible_values[i])
     for val in possible_values[i]:
@@ -102,8 +96,9 @@ for i in categorical_indices:
 # Calculating precision and recall for PR curve
 y_scores = []
 y_true = []
-# True negative count for accuracy score
-tn = 0
+
+# Confusion matrix values
+true_pos, false_pos, false_neg, true_neg = 0, 0, 0, 0
 
 for instance in test_set:
     # Reset negative and positive class probabilities for each instance
@@ -117,11 +112,27 @@ for instance in test_set:
         else:
             prob_neg *= cat_counts_neg[i][attr]
             prob_pos *= cat_counts_pos[i][attr]
-    if instance[-1] == 0 and prob_neg > prob_pos: tn += 1
+    if instance[-1] == 0: 
+        if prob_neg > prob_pos: 
+            true_neg += 1
+        else:
+            false_pos += 1
+    else:
+        if prob_neg > prob_pos:
+            false_neg += 1
+        else:
+            true_pos += 1
 
     score = prob_pos / (prob_pos + prob_neg) 
     y_scores.append(score)
     y_true.append(1 if instance[n] > 0 else 0)
+
+# Get confusion matrix
+confusion_matrix = np.array([[true_pos, false_pos],
+                     [false_neg, true_neg]])
+
+# Export confusion matrix to csv
+pd.DataFrame(confusion_matrix).to_csv("../naivebayes_cm.csv", index=False, header=False)
 
 y_scores = np.array(y_scores)
 y_true = np.array(y_true)
@@ -150,7 +161,7 @@ for i in range(len(y_true)):
 
 auc = pr_auc(recall, precision)
 print(f"PR-AUC: {auc:.4f}")
-accuracy = (tp + tn) / len(test_set)
+accuracy = (true_pos + true_neg) / len(test_set)
 
 # Export precision-recall data to csv
 df = pd.DataFrame({

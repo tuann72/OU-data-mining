@@ -23,6 +23,7 @@ acc = accuracy(tree, test_set)
 print(f"Accuracy: {acc}")
 
 precision_e, recall_e, auc = compute_pr_curve(tree, test_set)
+tp, fp, fn, tn = confusion_matrix(tree, test_set)
 
 # Export precision-recall data to csv
 df = pd.DataFrame({
@@ -31,6 +32,13 @@ df = pd.DataFrame({
   "auc_pr" : auc
 })
 df.to_csv("../decisiontree_pr.csv", index=False)
+
+# Get confusion matrix
+cm = np.array([[tp, fp],
+                     [fn, tn]])
+
+# Export confusion matrix to csv
+pd.DataFrame(cm).to_csv("../decisiontree_cm.csv", index=False, header=False)
 
 # Plot PR Curve
 plt.plot(recall_e, precision_e, label=f'AUC = {auc:.4f}')

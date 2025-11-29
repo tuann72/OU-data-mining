@@ -346,3 +346,20 @@ def compute_roc_curve(tree, test_set):
 
     auc = np.trapezoid(tpr_list, fpr_list)
     return fpr_list, tpr_list, auc
+
+def confusion_matrix(tree, test_set):
+    tp, fp, fn, tn = 0, 0, 0, 0
+    for instance in test_set:
+        true_label = int(instance[-1])
+        predicted_label = predict(tree, instance)
+        if true_label == 1:
+            if predicted_label == 1:
+                tp += 1
+            else:
+                fn += 1
+        else:
+            if predicted_label == 1:
+                fp += 1
+            else:
+                tn += 1
+    return tp, fp, fn, tn
