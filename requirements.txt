@@ -26,33 +26,6 @@ kiwisolver @ file:///opt/miniconda3/conda-bld/kiwisolver_1764159432715/work
 linkify-it-py @ file:///home/conda/feedstock_root/build_artifacts/linkify-it-py_1733781180837/work
 markdown-it-py @ file:///home/conda/feedstock_root/build_artifacts/markdown-it-py_1754951200865/work
 matplotlib==3.10.6
-matplotlib-inline @ file:///home/conda/feedstock_root/build_artifacts/matplotlib-inline_1733416936468/work
-mdit-py-plugins @ file:///home/conda/feedstock_root/build_artifacts/mdit-py-plugins_1754946772828/work
-mdurl @ file:///home/conda/feedstock_root/build_artifacts/mdurl_1733255585584/work
-narwhals @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_narwhals_1760972947/work
-numexpr @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_766kpwgy17/croot/numexpr_1755766476118/work
-numpy @ file:///opt/miniconda3/conda-bld/numpy_and_numpy_base_1760547730050/work/dist/numpy-2.3.3-cp313-cp313-macosx_12_0_arm64.whl#sha256=6528ffc6626f2728a7f27575b39b0f24916f7890c34a559b05c4e64921730c8a
-orjson @ file:///Users/runner/miniforge3/conda-bld/bld/rattler-build_orjson_1756855036/work
-packaging @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_packaging_1745345660/work
-pandas @ file:///opt/miniconda3/conda-bld/pandas_1759822251234/work/dist/pandas-2.3.3-cp313-cp313-macosx_12_0_arm64.whl#sha256=132d05e03c5d0b1edf46852a671c634fe3752a9d621f3fbafa5b73c7f22e0e87
-parso @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_parso_1755974222/work
-pexpect @ file:///home/conda/feedstock_root/build_artifacts/pexpect_1733301927746/work
-pickleshare @ file:///home/conda/feedstock_root/build_artifacts/pickleshare_1733327343728/work
-pillow @ file:///opt/miniconda3/conda-bld/pillow_1762528236820/work
-platformdirs @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_platformdirs_1759953252/work
-plotly @ file:///home/conda/feedstock_root/build_artifacts/plotly_1759457547414/work
-prompt_toolkit @ file:///home/conda/feedstock_root/build_artifacts/prompt-toolkit_1756321756983/work
-psygnal @ file:///home/conda/feedstock_root/build_artifacts/psygnal_1758746671814/work
-ptyprocess @ file:///home/conda/feedstock_root/build_artifacts/ptyprocess_1733302279685/work/dist/ptyprocess-0.7.0-py2.py3-none-any.whl#sha256=92c32ff62b5fd8cf325bec5ab90d7be3d2a8ca8c8a3813ff487a8d2002630d1f
-pure_eval @ file:///home/conda/feedstock_root/build_artifacts/pure_eval_1733569405015/work
-Pygments @ file:///home/conda/feedstock_root/build_artifacts/pygments_1750615794071/work
-pyparsing @ file:///opt/miniconda3/conda-bld/pyparsing_1763973789929/work
-python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_python-dateutil_1751104122/work
-python-multipart @ file:///home/conda/feedstock_root/build_artifacts/python-multipart_1734420773152/work
-pytz @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_3bjczh6it0/croot/pytz_1752135865541/work
-questionary @ file:///home/conda/feedstock_root/build_artifacts/questionary_1757356288446/work
-scikit-learn @ file:///opt/miniconda3/conda-bld/scikit-learn_1758620844345/work
-scipy @ file:///opt/miniconda3/conda-bld/scipy_1762194748151/work/dist/scipy-1.16.3-cp313-cp313-macosx_12_0_arm64.whl#sha256=3b04b7058e0eaf4429c87ae07f579c05c0eede9297525893d9a04959c82a4908
 setuptools==80.9.0
 shiny @ file:///home/conda/feedstock_root/build_artifacts/shiny_1744145787073/work
 shinywidgets @ file:///home/conda/feedstock_root/build_artifacts/shinywidgets_1752564208082/work
