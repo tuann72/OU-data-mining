@@ -19,10 +19,10 @@ with open("data.csv", "r", newline="") as infile, open("clean_data.csv", "w", ne
         new_row = [row[i] for i in keep_cols]
         # numRows += 1
         if new_row[-1] == "Dropout":
-            new_row[-1] = 0
+            new_row[-1] = 1
             # drops += 1
         else:
-            new_row[-1] = 1
+            new_row[-1] = 0
             # nonDrops += 1
         writer.writerow(new_row)
 
