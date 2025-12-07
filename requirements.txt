@@ -1,48 +1,7 @@
-anyio @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_anyio_1758634638/work
-anywidget @ file:///home/conda/feedstock_root/build_artifacts/anywidget_1742800588088/work
-appdirs @ file:///home/conda/feedstock_root/build_artifacts/appdirs_1733753955715/work
-asgiref @ file:///home/conda/feedstock_root/build_artifacts/asgiref_1759701473823/work
-asttokens @ file:///home/conda/feedstock_root/build_artifacts/asttokens_1733250440834/work
-Bottleneck @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_55txi4fy1u/croot/bottleneck_1731058642212/work
-click @ file:///home/conda/feedstock_root/build_artifacts/click_1758270398201/work
-comm @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_comm_1753453984/work
-contourpy @ file:///opt/miniconda3/conda-bld/contourpy_1763643920891/work
-cycler @ file:///tmp/build/80754af9/cycler_1637851556182/work
-decorator @ file:///home/conda/feedstock_root/build_artifacts/decorator_1740384970518/work
-exceptiongroup @ file:///home/conda/feedstock_root/build_artifacts/exceptiongroup_1746947292760/work
-executing @ file:///home/conda/feedstock_root/build_artifacts/executing_1756729339227/work
-fonttools @ file:///opt/miniconda3/conda-bld/fonttools_1759754874393/work
-h11 @ file:///home/conda/feedstock_root/build_artifacts/h11_1745526374115/work
-htmltools @ file:///home/conda/feedstock_root/build_artifacts/htmltools_1730265283118/work
-idna @ file:///home/conda/feedstock_root/build_artifacts/idna_1760286409563/work
-ipython @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_ipython_1759151815/work
-ipython_pygments_lexers @ file:///home/conda/feedstock_root/build_artifacts/ipython_pygments_lexers_1737123620466/work
-ipywidgets @ file:///home/conda/feedstock_root/build_artifacts/ipywidgets_1746454582739/work
-jedi @ file:///home/conda/feedstock_root/build_artifacts/jedi_1733300866624/work
-joblib @ file:///opt/miniconda3/conda-bld/joblib_1757926354564/work
-jupyter_core @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_jupyter_core_1760643864/work
-jupyterlab_widgets @ file:///home/conda/feedstock_root/build_artifacts/jupyterlab_widgets_1746450771080/work
-kiwisolver @ file:///opt/miniconda3/conda-bld/kiwisolver_1764159432715/work
-linkify-it-py @ file:///home/conda/feedstock_root/build_artifacts/linkify-it-py_1733781180837/work
-markdown-it-py @ file:///home/conda/feedstock_root/build_artifacts/markdown-it-py_1754951200865/work
-matplotlib==3.10.6
-setuptools==80.9.0
-shiny @ file:///home/conda/feedstock_root/build_artifacts/shiny_1744145787073/work
-shinywidgets @ file:///home/conda/feedstock_root/build_artifacts/shinywidgets_1752564208082/work
-six @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_six_1753199211/work
-sniffio @ file:///home/conda/feedstock_root/build_artifacts/sniffio_1733244044561/work
-stack_data @ file:///home/conda/feedstock_root/build_artifacts/stack_data_1733569443808/work
-starlette @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_starlette_1757860651/work
-threadpoolctl @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_18rgexrkuo/croot/threadpoolctl_1731006101562/work
-tornado @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_63s3osc0_1/croot/tornado_1748956943583/work
-traitlets @ file:///home/conda/feedstock_root/build_artifacts/traitlets_1733367359838/work
-typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_typing_extensions_1756220668/work
-tzdata @ file:///croot/python-tzdata_1746123641790/work
-uc-micro-py @ file:///home/conda/feedstock_root/build_artifacts/uc-micro-py_1733784165198/work
-uvicorn @ file:///home/conda/feedstock_root/build_artifacts/uvicorn_1760803785189/work
-watchfiles @ file:///Users/runner/miniforge3/conda-bld/watchfiles_1760456877111/work
-wcwidth @ file:///home/conda/feedstock_root/build_artifacts/wcwidth_1758622279606/work
-websockets @ file:///Users/runner/miniforge3/conda-bld/bld/rattler-build_websockets_1756476397/work/dist
-wheel==0.45.1
-widgetsnbextension @ file:///home/conda/feedstock_root/build_artifacts/widgetsnbextension_1744291053367/work
-wrapt @ file:///Users/runner/miniforge3/conda-bld/wrapt_1760964356591/work
+shiny==1.5.0
+shinywidgets==0.7.0
+plotly==5.23.0
+pandas==2.2.3
+matplotlib==3.8.4
+numpy==2.0.2
+scikit-learn==1.6.1
