@@ -3,9 +3,9 @@
 We utilize Conda for our Python environments
 
 ```bash
-conda create -n myenv python=3.10
-conda activate myenv
-conda install --file requirements.txt
+python3 -m venv venv
+source venv/bin/activate
+pip3 install -r requirements.txt
 ```
 
 Then we can run the application.
