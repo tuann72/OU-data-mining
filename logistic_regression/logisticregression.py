@@ -8,7 +8,8 @@ import pandas as pd
 data = np.loadtxt('../clean_data.csv', delimiter=',', skiprows=1)
 
 # Split into train/test using your existing helper
-training_set, testing_set = split_data(data)
+# training_set, testing_set = split_data(data)
+training_set, testing_set = np.loadtxt('../train.csv', delimiter=',', skiprows=0), np.loadtxt('../test.csv', delimiter=',', skiprows=0)
 
 # Train logistic regression model
 updated_array = np.array(training_set)

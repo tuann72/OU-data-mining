@@ -1,6 +1,7 @@
 import math
 import random 
 import numpy as np
+import csv
 
 class TreeNode:
     def __init__(self, is_leaf=False, label=None, attribute=None, threshold=None, prob=None):
@@ -49,6 +50,13 @@ def split_data(data):
     for i in range(m):
         if i not in visited:
             testing.append(data[i])
+    
+    with open('../train.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(training)
+    with open('../test.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(testing)
     return training, testing
 
 def entropy(data):

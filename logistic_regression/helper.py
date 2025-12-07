@@ -235,5 +235,5 @@ def calculate_confusion_matrix(weights, bias, test_set):
         elif y_true == 0 and y_pred == 0:
             true_negative += 1
 
-    return np.array([[true_positive, false_positive],
-                     [false_negative, true_negative]])
+    return np.array([[true_positive, false_negative],
+                     [false_positive, true_negative]])

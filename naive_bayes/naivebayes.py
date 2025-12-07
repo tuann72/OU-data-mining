@@ -10,8 +10,8 @@ m, n = np.shape(data)
 n -= 1
 
 # Split dataset into training and testing
-#train_set, test_set = split_data(data)
-train_set, test_set = split_data(data)
+# train_set, test_set = split_data(data)
+train_set, test_set = np.loadtxt('../train.csv', delimiter=',', skiprows=0), np.loadtxt('../test.csv', delimiter=',', skiprows=0)
 
 # Initialize values for number of negative and positive cases (in train_set) and mu values for neg/pos
 num_neg, num_pos = 0, 0
@@ -120,8 +120,8 @@ for instance in test_set:
     y_true.append(1 if instance[n] > 0 else 0)
 
 # Get confusion matrix
-confusion_matrix = np.array([[true_pos, false_pos],
-                     [false_neg, true_neg]])
+confusion_matrix = np.array([[true_pos, false_neg],
+                     [false_pos, true_neg]])
 
 # Export confusion matrix to csv
 pd.DataFrame(confusion_matrix).to_csv("../naivebayes_cm.csv", index=False, header=False)

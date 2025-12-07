@@ -9,7 +9,9 @@ data = np.loadtxt('../clean_data.csv', delimiter=',', skiprows=1)
 m, n = np.shape(data)
 
 # Split dataset into training and testing
-train_set, test_set = split_data(data)
+# train_set, test_set = split_data(data)
+
+train_set, test_set = np.loadtxt('../train.csv', delimiter=',', skiprows=0), np.loadtxt('../test.csv', delimiter=',', skiprows=0)
 
 categorical_indices = {i for i in range(n)}
 numerical_indices = {13, 15, 16, 17, 18, 19}
@@ -34,8 +36,8 @@ df = pd.DataFrame({
 df.to_csv("../decisiontree_pr.csv", index=False)
 
 # Get confusion matrix
-cm = np.array([[tp, fp],
-                     [fn, tn]])
+cm = np.array([[tp, fn],
+                     [fp, tn]])
 
 # Export confusion matrix to csv
 pd.DataFrame(cm).to_csv("../decisiontree_cm.csv", index=False, header=False)
