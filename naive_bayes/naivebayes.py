@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from helper import *
+from naive_bayes.nb_helper import *
 import pandas as pd
 
 # Read in data

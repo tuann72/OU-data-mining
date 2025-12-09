@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from helper import *
+from decision_trees.dt_helper import *
 import pandas as pd
 
 # Read in data

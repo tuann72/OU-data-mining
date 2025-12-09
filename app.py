@@ -6,8 +6,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.metrics import ConfusionMatrixDisplay
-import decision_trees.helper as dt
-import naive_bayes.helper as nb
+import decision_trees.dt_helper as dt
+import naive_bayes.nb_helper as nb
 from datetime import datetime
 
 ### TEST DATA FOR FIGURES

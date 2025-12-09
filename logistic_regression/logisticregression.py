@@ -1,5 +1,5 @@
 import numpy as np
-from helper import *
+from logistic_regression.lr_helper import *
 import matplotlib.pyplot as plt
 import pandas as pd
 
