@@ -15,6 +15,8 @@ nb_helper.py contains helper functions for naive bayes including splitting the d
 
 naviebayes.py performs the naive bayes classification using nb_helper functions to make predictions and plot results
 
+app.py contains a Shiny web app that compiles a UI with interactions that rely on calling functions from dt_helper.py, lr_helper.py, nb_helper.py to perform classifications.
+
 ### Expected Structure to run
 decision_trees (folder)
 - decisiontrees.py
